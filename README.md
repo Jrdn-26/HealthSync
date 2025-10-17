@@ -100,13 +100,6 @@ Medium term: support for new sensor types as they become available, a marketplac
 
 Long term: AI that detects subtle patterns humans miss, personalized health models that predict problems before symptoms appear, integration with genomics when it becomes accessible.
 
-## Real Stories
-
-Clara, a marathon runner, used the recovery data to avoid overtraining. Improved her time by 12 minutes and stayed injury-free for the first time in years.
-
-Mrs. Dupont's children sleep better knowing they'll be alerted if something's wrong with their mother, while she enjoys independence at 82.
-
-Dr. Laurent catches deteriorating conditions earlier and adjusts treatments proactively instead of reactively.
 
 ## Final Thoughts
 
