@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nick Cloud System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'nick-primary': '#4CAF50',
+                        'nick-dark': '#1E3A8A',
+                        'nick-accent': '#FFC107',
+                        'nick-light': '#F0F9FF'
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s infinite',
+                        'bounce-slow': 'bounce 2s infinite'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Header -->
+    <header class="bg-nick-dark text-white shadow-lg">
+        <nav class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <div class="flex items-center">
+                    <i class="fas fa-cloud text-3xl text-nick-primary mr-2"></i>
+                    <h1 class="text-2xl font-bold">
+                        <span class="text-nick-primary">Nick</span> Cloud
+                    </h1>
+                </div>
+                <div id="nav-public" class="flex space-x-4 ml-8">
+                    <button onclick="showView('home')" class="hover:text-nick-primary transition duration-200 flex items-center">
+                        <i class="fas fa-home mr-1"></i> Accueil
+                    </button>
+                    <button onclick="showView('register')" class="hover:text-nick-primary transition duration-200 flex items-center">
+                        <i class="fas fa-user-plus mr-1"></i> S'inscrire
+                    </button>
+                    <button onclick="showView('login')" class="hover:text-nick-primary transition duration-200 flex items-center">
+                        <i class="fas fa-sign-in-alt mr-1"></i> Se Connecter
+                    </button>
+                </div>
+            </div>
+            
+            <div id="nav-private" class="hidden flex items-center space-x-4">
+                <div class="flex items-center bg-nick-primary/20 px-3 py-1 rounded-lg">
+                    <i class="fas fa-server mr-2"></i>
+                    <span id="current-vm-display" class="font-semibold"></span>
+                </div>
+                <button id="logout-btn" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-200 flex items-center">
+                    <i class="fas fa-sign-out-alt mr-2"></i> Déconnexion
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-4 md:p-6 flex-grow">
+        <!-- Home View -->
+        <section id="view-home" class="view-section">
+            <div class="text-center py-16 bg-gradient-to-r from-nick-light to-white rounded-2xl shadow-xl">
+                <div class="animate-bounce-slow mb-6">
+                    <i class="fas fa-cloud text-7xl text-nick-primary"></i>
+                </div>
+                <h2 class="text-5xl font-extrabold mb-4 text-nick-dark">Bienvenue sur Nick Cloud System</h2>
+                <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">Votre plateforme Cloud P2P sécurisée et distribuée pour le partage et le stockage de fichiers.</p>
+                <div class="space-x-4">
+                    <button onclick="showView('login')" class="bg-nick-primary hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105">
+                        <i class="fas fa-sign-in-alt mr-2"></i> Se connecter
+                    </button>
+                    <button onclick="showView('register')" class="bg-nick-dark hover:bg-blue-900 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105">
+                        <i class="fas fa-cloud-upload-alt mr-2"></i> Créer une VM
+                    </button>
+                </div>
+                
+                <!-- Features -->
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <div class="text-nick-primary text-4xl mb-4">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-nick-dark mb-2">Sécurisé</h3>
+                        <p class="text-gray-600">Chiffrement de bout en bout pour protéger vos données</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <div class="text-nick-primary text-4xl mb-4">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-nick-dark mb-2">Rapide</h3>
+                        <p class="text-gray-600">Transferts P2P optimisés pour une vitesse maximale</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <div class="text-nick-primary text-4xl mb-4">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-nick-dark mb-2">Distribué</h3>
+                        <p class="text-gray-600">Réseau décentralisé sans point de défaillance unique</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Register View -->
+        <section id="view-register" class="view-section hidden">
+            <div class="max-w-lg mx-auto bg-white p-8 rounded-2xl shadow-xl">
+                <div class="text-center mb-8">
+                    <div class="inline-block p-4 bg-nick-light rounded-full mb-4">
+                        <i class="fas fa-server text-4xl text-nick-primary"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-nick-dark">Création de VM</h2>
+                    <p class="text-gray-600 mt-2">Configurez votre machine virtuelle cloud</p>
+                </div>
+                
+                <div class="space-y-6">
+                    <div>
+                        <label for="reg-vm-name" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-tag mr-1"></i> Nom de la VM
+                        </label>
+                        <input type="text" id="reg-vm-name" placeholder="Ex: wolf-vm" 
+                               class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-nick-primary focus:ring-2 focus:ring-nick-primary/50 transition">
+                    </div>
+                    
+                    <div>
+                        <label for="reg-vm-email" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-envelope mr-1"></i> Email
+                        </label>
+                        <input type="email" id="reg-vm-email" placeholder="email@exemple.com" 
+                               class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-nick-primary focus:ring-2 focus:ring-nick-primary/50 transition">
+                    </div>
+                    
+                    <div>
+                        <label for="reg-vm-password" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-lock mr-1"></i> Mot de passe
+                        </label>
+                        <input type="password" id="reg-vm-password" placeholder="Minimum 8 caractères" 
+                               class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-nick-primary focus:ring-2 focus:ring-nick-primary/50 transition">
+                    </div>
+                    
+                    <div>
+                        <label for="reg-vm-storage" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-hdd mr-1"></i> Stockage (MB)
+                        </label>
+                        <input type="number" id="reg-vm-storage" value="500" min="100" max="10000" 
+                               class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-nick-primary focus:ring-2 focus:ring-nick-primary/50 transition">
+                        <p class="text-xs text-gray-500 mt-1">Stockage alloué à votre machine virtuelle (100MB - 10GB)</p>
+                    </div>
+                    
+                    <button id="register-btn" class="w-full bg-nick-primary hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200 transform hover:scale-[1.02]">
+                        <i class="fas fa-paper-plane mr-2"></i> S'inscrire & Recevoir le Code
+                    </button>
+                    
+                    <div id="reg-message" class="text-center text-sm p-3 rounded-lg"></div>
+                </div>
+                
+                <div class="mt-6 pt-6 border-t border-gray-200 text-center">
+                    <p class="text-gray-600">
+                        Déjà une VM ? 
+                        <button onclick="showView('login')" class="text-nick-primary hover:text-nick-dark font-medium ml-1">
+                            Connectez-vous ici <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Confirmation View -->
+        <section id="view-confirm" class="view-section hidden">
+            <div class="max-w-lg mx-auto bg-white p-8 rounded-2xl shadow-xl">
+                <div class="text-center mb-8">
+                    <div class="inline-block p-4 bg-green-100 rounded-full mb-4">
+                        <i class="fas fa-mail-bulk text-4xl text-green-600"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-nick-dark">Confirmation Email</h2>
+                    <p class="text-gray-600 mt-2">Un code de confirmation a été envoyé à :</p>
+                    <p id="confirm-email-display" class="text-lg font-semibold text-nick-primary mt-1"></p>
+                </div>
+                
+                <div class="space-y-6">
+                    <div>
+                        <label for="confirm-code-input" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-key mr-1"></i> Code de Confirmation
+                        </label>
+                        <input type="text" id="confirm-code-input" placeholder="Entrez les 6 chiffres" 
+                               class="w-full p-4 text-center text-2xl font-mono border-2 border-nick-primary rounded-lg focus:ring-2 focus:ring-nick-primary/50">
+                        <p class="text-xs text-gray-500 mt-2">Vérifiez votre boîte de réception (et spam)</p>
+                    </div>
+                    
+                    <button id="confirm-code-btn" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200">
+                        <i class="fas fa-check-circle mr-2"></i> Confirmer et Créer la VM
+                    </button>
+                    
+                    <div id="confirm-message" class="text-center text-sm p-3 rounded-lg"></div>
+                </div>
+                
+                <div class="mt-6 pt-6 border-t border-gray-200 text-center">
+                    <button onclick="showView('register')" class="text-gray-600 hover:text-nick-dark">
+                        <i class="fas fa-arrow-left mr-1"></i> Retour à l'inscription
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Login View -->
+        <section id="view-login" class="view-section hidden">
+            <div class="max-w-lg mx-auto bg-white p-8 rounded-2xl shadow-xl">
+                <div class="text-center mb-8">
+                    <div class="inline-block p-4 bg-nick-light rounded-full mb-4">
+                        <i class="fas fa-sign-in-alt text-4xl text-nick-primary"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-nick-dark">Connexion à votre VM</h2>
+                    <p class="text-gray-600 mt-2">Accédez à votre machine virtuelle cloud</p>
+                </div>
+                
+                <div class="space-y-6">
+                    <div>
+                        <label for="login-vm-name" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-server mr-1"></i> Nom de la VM
+                        </label>
+                        <input type="text" id="login-vm-name" placeholder="Ex: wolf-vm" 
+                               class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-nick-primary focus:ring-2 focus:ring-nick-primary/50 transition">
+                    </div>
+                    
+                    <div>
+                        <label for="login-vm-password" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-key mr-1"></i> Mot de passe
+                        </label>
+                        <input type="password" id="login-vm-password" placeholder="Votre mot de passe" 
+                               class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-nick-primary focus:ring-2 focus:ring-nick-primary/50 transition">
+                    </div>
+                    
+                    <button id="login-btn" class="w-full bg-nick-primary hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200 transform hover:scale-[1.02]">
+                        <i class="fas fa-cloud-upload-alt mr-2"></i> Accéder à ma VM
+                    </button>
+                    
+                    <div id="login-message" class="text-center text-sm p-3 rounded-lg"></div>
+                </div>
+                
+                <div class="mt-6 pt-6 border-t border-gray-200 text-center">
+                    <p class="text-gray-600">
+                        Pas de VM ? 
+                        <button onclick="showView('register')" class="text-nick-primary hover:text-nick-dark font-medium ml-1">
+                            Créez-en une ici <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard View -->
+        <section id="view-dashboard" class="view-section hidden">
+            <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl">
+                <!-- Header -->
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-6 border-b">
+                    <div>
+                        <h2 class="text-3xl font-bold text-nick-dark">
+                            <i class="fas fa-cloud mr-2"></i> Dashboard
+                        </h2>
+                        <p class="text-gray-600 mt-1">VM : <span id="dashboard-vm-name" class="font-semibold text-nick-primary"></span></p>
+                    </div>
+                    <div class="mt-4 md:mt-0">
+                        <div class="bg-nick-light px-4 py-2 rounded-lg">
+                            <p id="dashboard-storage-info" class="text-nick-dark font-semibold">
+                                <i class="fas fa-hdd mr-1"></i> Utilisé: 0MB / Total: 500MB
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Storage Progress -->
+                <div class="mb-8 bg-nick-light p-4 rounded-xl">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="font-semibold text-nick-dark">
+                            <i class="fas fa-chart-bar mr-1"></i> Espace de Stockage
+                        </h3>
+                        <span id="storage-percentage" class="text-sm font-semibold text-nick-dark">0%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div id="storage-progress-bar" class="bg-nick-primary h-2.5 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <div class="flex justify-between text-xs text-gray-600 mt-1">
+                        <span>0 MB</span>
+                        <span id="storage-total-display">500 MB</span>
+                    </div>
+                </div>
+
+                <!-- Upload and Request Sections -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                    <!-- Upload Section -->
+                    <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                        <h3 class="text-xl font-semibold mb-4 text-nick-dark">
+                            <i class="fas fa-upload mr-2"></i> Uploader & Partager
+                        </h3>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label for="upload-file-input" class="block text-sm font-medium text-gray-700 mb-2">
+                                    <i class="fas fa-file mr-1"></i> Sélectionner un Fichier
+                                </label>
+                                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-nick-primary transition cursor-pointer" 
+                                     onclick="document.getElementById('upload-file-input').click()">
+                                    <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-2"></i>
+                                    <p class="text-gray-600">Cliquez ou glissez-déposez un fichier</p>
+                                    <p class="text-xs text-gray-500 mt-1">Max 100MB par fichier</p>
+                                </div>
+                                <input type="file" id="upload-file-input" class="hidden">
+                                <p id="selected-file-name" class="text-sm text-gray-500 italic mt-2"></p>
+                            </div>
+                            
+                            <div class="pt-2">
+                                <h4 class="text-sm font-medium text-gray-700 mb-3">
+                                    <i class="fas fa-tasks mr-1"></i> Action :
+                                </h4>
+                                <div class="space-y-3">
+                                    <label class="flex items-center space-x-3 p-3 bg-white rounded-lg border cursor-pointer hover:bg-nick-light transition">
+                                        <input type="radio" name="upload-option" value="store_only" id="option-store-only" checked class="text-nick-primary">
+                                        <div>
+                                            <span class="font-medium">Stocker uniquement</span>
+                                            <p class="text-xs text-gray-500">Le fichier sera stocké sur votre VM uniquement</p>
+                                        </div>
+                                    </label>
+                                    <label class="flex items-center space-x-3 p-3 bg-white rounded-lg border cursor-pointer hover:bg-nick-light transition">
+                                        <input type="radio" name="upload-option" value="share_only" id="option-share-only" class="text-nick-primary">
+                                        <div>
+                                            <span class="font-medium">Partager uniquement</span>
+                                            <p class="text-xs text-gray-500">Le fichier sera partagé mais pas stocké localement</p>
+                                        </div>
+                                    </label>
+                                    <label class="flex items-center space-x-3 p-3 bg-white rounded-lg border cursor-pointer hover:bg-nick-light transition">
+                                        <input type="radio" name="upload-option" value="store_and_share" id="option-store-and-share" class="text-nick-primary">
+                                        <div>
+                                            <span class="font-medium">Stocker & Partager</span>
+                                            <p class="text-xs text-gray-500">Le fichier sera stocké ET partagé sur le réseau</p>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <button id="upload-btn" class="w-full bg-nick-accent hover:bg-yellow-600 text-white font-bold py-3 px-4 rounded-lg transition duration-200 mt-4">
+                                <i class="fas fa-play mr-2"></i> Démarrer l'Upload
+                            </button>
+                            
+                            <div id="upload-message" class="text-center text-sm p-3 rounded-lg"></div>
+                        </div>
+                    </div>
+
+                    <!-- Request Section -->
+                    <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                        <h3 class="text-xl font-semibold mb-4 text-nick-dark">
+                            <i class="fas fa-download mr-2"></i> Demander un Fichier
+                        </h3>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <label for="request-filename" class="block text-sm font-medium text-gray-700 mb-2">
+                                    <i class="fas fa-search mr-1"></i> Recherche de Fichier
+                                </label>
+                                <input type="text" id="request-filename" placeholder="Ex: rapport_final.pdf, photo.jpg, ..." 
+                                       class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-nick-primary focus:ring-2 focus:ring-nick-primary/50 transition">
+                                <p class="text-xs text-gray-500 mt-1">Recherche dans tout le réseau P2P</p>
+                            </div>
+                            
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h4 class="font-medium text-blue-800 mb-2">
+                                    <i class="fas fa-info-circle mr-1"></i> Comment ça marche ?
+                                </h4>
+                                <ul class="text-sm text-blue-700 space-y-1">
+                                    <li>• Recherche sur toutes les VMs connectées</li>
+                                    <li>• Transfert direct P2P sécurisé</li>
+                                    <li>• Aucun intermédiaire</li>
+                                </ul>
+                            </div>
+                            
+                            <button id="request-btn" class="w-full bg-nick-primary hover:bg-nick-dark text-white font-bold py-3 px-4 rounded-lg transition duration-200">
+                                <i class="fas fa-cloud-download-alt mr-2"></i> Rechercher & Télécharger
+                            </button>
+                            
+                            <div id="request-message" class="text-center text-sm p-3 rounded-lg"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File List -->
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                    <h3 class="text-xl font-semibold mb-4 text-nick-dark">
+                        <i class="fas fa-folder-open mr-2"></i> Fichiers sur votre VM
+                    </h3>
+                    
+                    <div id="dashboard-file-list" class="min-h-[150px]">
+                        <div class="text-center py-10">
+                            <i class="fas fa-cloud text-4xl text-gray-300 mb-3"></i>
+                            <p class="text-gray-500">Aucun fichier dans votre cloud</p>
+                            <p class="text-sm text-gray-400 mt-1">Commencez par uploader un fichier</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center mt-4 pt-4 border-t border-gray-200">
+                        <span id="file-count" class="text-sm text-gray-600">0 fichiers</span>
+                        <button id="refresh-files-btn" class="text-sm text-nick-primary hover:text-nick-dark">
+                            <i class="fas fa-sync-alt mr-1"></i> Actualiser
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Network Status -->
+                <div class="mt-8 bg-nick-dark text-white p-4 rounded-xl">
+                    <div class="flex items-center">
+                        <i class="fas fa-wifi text-2xl mr-3"></i>
+                        <div>
+                            <h4 class="font-semibold">Réseau P2P</h4>
+                            <p class="text-sm text-gray-300">Connecté au serveur cloud</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-nick-dark text-white mt-8">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center">
+                        <i class="fas fa-cloud text-2xl text-nick-primary mr-2"></i>
+                        <h3 class="text-xl font-bold">Nick Cloud System</h3>
+                    </div>
+                    <p class="text-gray-400 text-sm mt-1">Cloud P2P Sécurisé & Distribué</p>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-gray-400 text-sm">© 2024 Nick Cloud System. Tous droits réservés.</p>
+                    <p class="text-gray-400 text-xs mt-1">Version 2.0.0</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="static/main.js"></script>
+</body>
+</html>
